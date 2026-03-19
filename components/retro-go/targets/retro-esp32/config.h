@@ -1,15 +1,15 @@
 // Target definition
 #define RG_TARGET_NAME             "RETRO-ESP32"
-
+ 
 // Storage
 #define RG_STORAGE_ROOT             "/sd"
 #define RG_STORAGE_SDSPI_HOST       SPI2_HOST
 #define RG_STORAGE_SDSPI_SPEED      SDMMC_FREQ_DEFAULT
-
+ 
 // Audio - using internal DAC (no external DAC assumed)
 #define RG_AUDIO_USE_INT_DAC        1   // GPIO25
 #define RG_AUDIO_USE_EXT_DAC        0
-
+ 
 // Video
 #define RG_SCREEN_DRIVER            0   // 0 = ILI9341/ST7789
 #define RG_SCREEN_HOST              SPI2_HOST
@@ -41,27 +41,25 @@
     ILI9341_CMD(0x21);                  /* Display Inversion On */              \
     ILI9341_CMD(0x29);                  /* Display On */                        \
     RG_SLEEP_MS(10);
-
-// Input - Simple GPIO buttons, all with pullup, active LOW
-// Connect one leg to GPIO, other leg to GND
+ 
+// Input - Simple GPIO buttons, active LOW (button connects GPIO to GND)
+// GPIO 34 and 35 have NO internal pullup - add 10k resistor from pin to 3.3V!
+// All other pins use internal pullup, no resistors needed
 #define RG_GAMEPAD_GPIO_MAP {\
     {RG_KEY_UP,     .num = GPIO_NUM_35, .pullup = 0, .level = 0},\
     {RG_KEY_DOWN,   .num = GPIO_NUM_27, .pullup = 1, .level = 0},\
-    {RG_KEY_LEFT,   .num = GPIO_NUM_36, .pullup = 0, .level = 0},\
-    {RG_KEY_RIGHT,  .num = GPIO_NUM_39, .pullup = 0, .level = 0},\
+    {RG_KEY_LEFT,   .num = GPIO_NUM_13, .pullup = 1, .level = 0},\
+    {RG_KEY_RIGHT,  .num = GPIO_NUM_12, .pullup = 1, .level = 0},\
     {RG_KEY_SELECT, .num = GPIO_NUM_25, .pullup = 1, .level = 0},\
     {RG_KEY_START,  .num = GPIO_NUM_26, .pullup = 1, .level = 0},\
     {RG_KEY_A,      .num = GPIO_NUM_32, .pullup = 1, .level = 0},\
     {RG_KEY_B,      .num = GPIO_NUM_33, .pullup = 1, .level = 0},\
     {RG_KEY_MENU,   .num = GPIO_NUM_34, .pullup = 0, .level = 0},\
 }
-
-// Note: GPIO 34, 35, 36, 39 are INPUT ONLY on ESP32 - no internal pullup!
-// For those pins, add a 10k resistor from the pin to 3.3V externally
-
-// Battery - disabled, no battery monitoring
+ 
+// Battery - disabled
 #define RG_BATTERY_DRIVER           0
-
+ 
 // SPI Display
 #define RG_GPIO_LCD_MISO            GPIO_NUM_19
 #define RG_GPIO_LCD_MOSI            GPIO_NUM_23
@@ -70,16 +68,15 @@
 #define RG_GPIO_LCD_DC              GPIO_NUM_2
 #define RG_GPIO_LCD_BCKL            GPIO_NUM_15
 // #define RG_GPIO_LCD_RST          GPIO_NUM_4
-
+ 
 // SPI SD Card
 #define RG_GPIO_SDSPI_MISO          GPIO_NUM_19
 #define RG_GPIO_SDSPI_MOSI          GPIO_NUM_23
 #define RG_GPIO_SDSPI_CLK           GPIO_NUM_18
 #define RG_GPIO_SDSPI_CS            GPIO_NUM_22
-
-// Audio - Internal DAC pins (built into ESP32, no wiring needed)
-// GPIO25 = Right channel, GPIO26 = Left channel
-// Connect a small speaker or headphone jack to GPIO25 + GND
-
+ 
+// Audio - Internal DAC (no extra wiring needed)
+// GPIO25 = audio out, connect to speaker/headphone jack + GND
+ 
 // Updater
-#define RG_UPDATER_ENABLE               0
+#define RG_UPDATER_ENABLE    
