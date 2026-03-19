@@ -1,43 +1,6 @@
-name: ci
-on:
-  workflow_dispatch:
-  push:
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Cleanup runner
-      run: |
-        df -h
-        sudo rm -rf /opt/microsoft /usr/local/.ghcup /usr/local/julia* /usr/share/dotnet /usr/share/swift /usr/lib/llvm*
-        df -h
-    - name: Checkout repository
-      uses: actions/checkout@v4
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v3
-    - name: Build
-      uses: docker/build-push-action@v6
-      with:
-        context: .
-        tags: retro-go:latest
-        cache-from: type=gha
-        cache-to: type=gha,mode=max
-        load: true
-    - name: Extract binaries from docker image
-      run: |
-        mkdir -p build
-        docker run --rm -v $(pwd)/build:/build retro-go:latest sh -c "
-          cp /app/*.fw /build/ 2>/dev/null || true
-          cp /app/*.img /build/ 2>/dev/null || true
-          find /app -name 'bootloader.bin' -exec cp {} /build/ \;
-          find /app -name 'partition-table.bin' -exec cp {} /build/ \;
-        "
-    - name: Upload artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: binaries
-        path: |
-          build/*.fw
-          build/*.img
-          build/bootloader.bin
-          build/partition-table.bin
+FROM espressif/idf:release-v5.1
+WORKDIR /app
+ADD . /app
+SHELL ["/bin/bash", "-c"]
+RUN . /opt/esp/idf/export.sh && \
+	python rg_tool.py --target=retro-esp32 --no-networking release
