@@ -78,5 +78,5 @@
 // Audio - Internal DAC (no extra wiring needed)
 // GPIO25 = audio out, connect to speaker/headphone jack + GND
  
-// Updater
-#define RG_UPDATER_ENABLE    
+
+
