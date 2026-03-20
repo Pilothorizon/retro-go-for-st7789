@@ -1,4 +1,3 @@
-//dockuh file nga
 FROM espressif/idf:release-v5.1
 WORKDIR /app
 ADD . /app
