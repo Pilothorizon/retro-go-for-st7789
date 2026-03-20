@@ -1,3 +1,4 @@
+// config for esp32 wroom 32d i hope ts works gng i swear
 // Target definition
 #define RG_TARGET_NAME             "RETRO-ESP32"
 
