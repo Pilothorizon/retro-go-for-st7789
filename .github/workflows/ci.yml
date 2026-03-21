@@ -20,8 +20,7 @@ jobs:
       with:
         context: .
         tags: retro-go:latest
-        cache-from: type=gha
-        cache-to: type=gha,mode=max
+        no-cache: true
         load: true
     - name: Extract binaries from docker image
       run: |
@@ -29,8 +28,6 @@ jobs:
         docker run --rm -v $(pwd)/build:/build retro-go:latest sh -c "
           cp /app/*.fw /build/ 2>/dev/null || true
           cp /app/*.img /build/ 2>/dev/null || true
-          cp /app/launcher/build/bootloader/bootloader.bin /build/bootloader.bin 2>/dev/null || true
-          cp /app/launcher/build/partition_table/partition-table.bin /build/partition-table.bin 2>/dev/null || true
         "
     - name: Upload artifacts
       uses: actions/upload-artifact@v4
@@ -39,5 +36,3 @@ jobs:
         path: |
           build/*.fw
           build/*.img
-          build/bootloader.bin
-          build/partition-table.bin
