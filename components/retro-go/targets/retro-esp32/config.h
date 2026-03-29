@@ -1,4 +1,3 @@
-// config for esp32 wroom 32d i hope ts works gng i swear
 // Target definition
 #define RG_TARGET_NAME             "RETRO-ESP32"
 
@@ -43,8 +42,8 @@
     ILI9341_CMD(0x29);                  /* Display On */                        \
     vTaskDelay(pdMS_TO_TICKS(10));
 
-// Input - Simple GPIO buttons, active LOW (button connects GPIO to GND)
-// GPIO 34 and 35 have NO internal pullup - add 10k resistor from pin to 3.3V!
+// Input - MENU uses onboard BOOT button (GPIO0), no extra wiring needed!
+// GPIO 35 needs 10k resistor to 3.3V (no internal pullup)
 #define RG_GAMEPAD_GPIO_MAP {\
     {RG_KEY_UP,     .num = GPIO_NUM_35, .pullup = 0, .level = 0},\
     {RG_KEY_DOWN,   .num = GPIO_NUM_27, .pullup = 1, .level = 0},\
@@ -54,7 +53,7 @@
     {RG_KEY_START,  .num = GPIO_NUM_26, .pullup = 1, .level = 0},\
     {RG_KEY_A,      .num = GPIO_NUM_32, .pullup = 1, .level = 0},\
     {RG_KEY_B,      .num = GPIO_NUM_33, .pullup = 1, .level = 0},\
-    {RG_KEY_MENU,   .num = GPIO_NUM_34, .pullup = 0, .level = 0},\
+    {RG_KEY_MENU,   .num = GPIO_NUM_0,  .pullup = 1, .level = 0},\
 }
 
 // Battery - disabled
