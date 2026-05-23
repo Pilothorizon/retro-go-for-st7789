@@ -49,7 +49,7 @@
 #define RG_GPIO_LCD_CS              GPIO_NUM_10
 #define RG_GPIO_LCD_DC              GPIO_NUM_9
 #define RG_GPIO_LCD_RST             GPIO_NUM_8
-#define RG_GPIO_LCD_BCKL            GPIO_NUM_NC
+#define RG_GPIO_LCD_BCKL            GPIO_NUM_46
 
 // I2S DAC pins (PCM5102A)
 #define RG_GPIO_SND_I2S_BCK         GPIO_NUM_41
